@@ -253,8 +253,7 @@ class Dreamer:
             image_parameter.optimizer.step()
 
             if i in iters:
-                filenames = [filenames[x]+"_{i}".format(i = i)+".jpg" for x in range(len(filenames))]
-                image_parameter.save(filenames)
+                image_parameter.save([filenames[x]+"_{i}".format(i = i)+".jpg" for x in range(len(filenames))])
 
 
 
