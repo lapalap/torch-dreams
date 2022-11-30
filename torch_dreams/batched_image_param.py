@@ -81,3 +81,16 @@ class BatchedAutoImageParam(BatchedImageParam):
 
     def __len__(self):
         return len(self.image_params)
+
+    def save(self, filenames):
+        """Save an image_param as an image. Uses PIL to save the image
+
+        usage:
+
+            image_param.save(filename = 'my_image.jpg')
+
+        Args:
+            filename (str): image.jpg
+        """
+        for x in range(len(self.image_params)):
+            self.image_params[x].save(filenames[x])

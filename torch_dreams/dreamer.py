@@ -128,7 +128,7 @@ class Dreamer:
         image_parameter=None,
         width=256,
         height=256,
-        iters=120,
+        iters=[120],
         lr=9e-3,
         rotate_degrees=15,
         scale_max=1.2,
@@ -138,6 +138,7 @@ class Dreamer:
         custom_func=None,
         weight_decay=0.0,
         grad_clip=1.0,
+        filenames = None,
     ):
         """core function to visualize elements form within the pytorch model
 
@@ -194,7 +195,7 @@ class Dreamer:
                 degrees=rotate_degrees, translate_x=translate_x, translate_y=translate_y
             )
 
-        for i in tqdm(range(iters), disable=self.quiet):
+        for i in tqdm(range(max(iters)), disable=self.quiet):
 
             image_parameter.optimizer.zero_grad()
 
@@ -250,6 +251,12 @@ class Dreamer:
             loss.backward()
             image_parameter.clip_grads(grad_clip=grad_clip)
             image_parameter.optimizer.step()
+
+            if i in iters:
+                filenames = [filenames[x]+"_{i}".format(i = i)+".jpg" for x in len(filenames)]
+                image_parameter.save(filenames)
+
+
 
         for hook in hooks:
             hook.close()
